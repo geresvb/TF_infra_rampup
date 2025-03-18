@@ -17,6 +17,16 @@ jobs:
         with:
           terraform_version: 1.5.0
 
+      - name: Create SSH Keys
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DB_SSH_PRIVATE_KEY }}" > ~/.ssh/dbkey
+          echo "${{ secrets.BACKEND_SSH_PRIVATE_KEY }}" > ~/.ssh/backendkey
+          echo "${{ secrets.FRONTEND_SSH_PRIVATE_KEY }}" > ~/.ssh/frontendkey
+          echo "${{ secrets.MANAGEMENT_SSH_PRIVATE_KEY }}" > ~/.ssh/managementkey
+          
+          chmod 600 ~/.ssh/dbkey ~/.ssh/backendkey ~/.ssh/frontendkey ~/.ssh/managementkey
+
       - name: Terraform Init
         run: terraform init
         env:
