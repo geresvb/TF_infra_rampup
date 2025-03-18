@@ -6,7 +6,7 @@ resource "azurerm_linux_virtual_machine" "dbvm" {
   name                = "DB-VM1"
   resource_group_name = azurerm_resource_group.RG_1.name
   location            = azurerm_resource_group.RG_1.location
-  size                = "Standard_B1s"
+  size                = "Standard_B2s"
   admin_username      = "adminuser"
   network_interface_ids = [
     azurerm_network_interface.nic_1.id
@@ -40,7 +40,7 @@ resource "azurerm_linux_virtual_machine" "BackendVM" {
   name                = "Backend-VM1"
   resource_group_name = azurerm_resource_group.RG_1.name
   location            = azurerm_resource_group.RG_1.location
-  size                = "Standard_B1s"
+  size                = "Standard_B2s"
   admin_username      = "adminuser"
   network_interface_ids = [
     azurerm_network_interface.nic_2.id
@@ -75,7 +75,7 @@ resource "azurerm_linux_virtual_machine" "FrontendVM" {
   name                = "Frontend-VM1"
   resource_group_name = azurerm_resource_group.RG_1.name
   location            = azurerm_resource_group.RG_1.location
-  size                = "Standard_B1s"
+  size                = "Standard_B2s"
   admin_username      = "adminuser"
   network_interface_ids = [
     azurerm_network_interface.nic_3.id
@@ -109,7 +109,7 @@ resource "azurerm_linux_virtual_machine" "ManagementVM" {
   name                = "Management-VM1"
   resource_group_name = azurerm_resource_group.RG_1.name
   location            = azurerm_resource_group.RG_1.location
-  size                = "Standard_B1s"
+  size                = "Standard_B2s"
   admin_username      = "adminuser"
   network_interface_ids = [
     azurerm_network_interface.nic_4.id
