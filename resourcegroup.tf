@@ -1,5 +1,5 @@
 resource "azurerm_resource_group" "RG_1" {
-  name     = "Terraform_Infra"
+  name     = "Terraform_Infrastructure"
   location = "East US"
   tags = {
     Tower   = "Wintel"
