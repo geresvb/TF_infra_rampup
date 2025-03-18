@@ -22,3 +22,4 @@ runcmd:
   - sudo docker pull geresvb/backend:1.0
   - sudo apt install git -y
   - sudo git clone https://github.com/geresvb/backendrampup /home/adminuser/backend
+  - sudo docker-compose -f /home/adminuser/backend/docker-compose.yml up -d
