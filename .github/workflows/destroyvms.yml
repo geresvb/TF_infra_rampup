@@ -23,9 +23,6 @@ jobs:
           ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
           ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
 
-      - name: Select Workspace (if using workspaces)
-        run: terraform workspace select default || terraform workspace new default
-
       - name: Plan destruction for VMs only
         run: terraform plan -destroy -target=azurerm_linux_virtual_machine.db_vm \
                              -target=azurerm_linux_virtual_machine.backend_vm \
