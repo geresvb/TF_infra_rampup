@@ -1,23 +1,19 @@
-name: Terraform Destroy
+name: Destroy Terraform VMs
 
 on:
-  workflow_dispatch: # Allows manual execution
-
-permissions:
-  id-token: write
-  contents: read
+  workflow_dispatch:  # Allows manual execution
 
 jobs:
-  terraform-destroy:
+  destroy-vms:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
+        uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: latest
+          terraform_version: 1.5.0
 
       - name: Terraform Init
         run: terraform init
@@ -26,31 +22,31 @@ jobs:
           ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
           ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
           ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-          TF_VAR_db_ssh_public_key: ${{ secrets.DB_SSH_PUBLIC_KEY }}
-          TF_VAR_backend_ssh_public_key: ${{ secrets.BACKEND_SSH_PUBLIC_KEY }}
-          TF_VAR_frontend_ssh_public_key: ${{ secrets.FRONTEND_SSH_PUBLIC_KEY }}
-          TF_VAR_management_ssh_public_key: ${{ secrets.MANAGEMENT_SSH_PUBLIC_KEY }}
+          TF_VAR_db_ssh_public_key: "${{ secrets.DB_SSH_PUBLIC_KEY }}"
+          TF_VAR_backend_ssh_public_key: "${{ secrets.BACKEND_SSH_PUBLIC_KEY }}"
+          TF_VAR_frontend_ssh_public_key: "${{ secrets.FRONTEND_SSH_PUBLIC_KEY }}"
+          TF_VAR_management_ssh_public_key: "${{ secrets.MANAGEMENT_SSH_PUBLIC_KEY }}"
 
-      - name: Terraform Plan (Destroy)
-        run: terraform plan -destroy -out=tfplan
+      - name: Plan destruction for VMs only
+        run: terraform plan -destroy -target=azurerm_linux_virtual_machine.dbvm -target=azurerm_linux_virtual_machine.BackendVM -target=azurerm_linux_virtual_machine.FrontendVM -target=azurerm_linux_virtual_machine.ManagementVM -out=tfplan
         env:
           ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
           ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
           ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-          TF_VAR_db_ssh_public_key: ${{ secrets.DB_SSH_PUBLIC_KEY }}
-          TF_VAR_backend_ssh_public_key: ${{ secrets.BACKEND_SSH_PUBLIC_KEY }}
-          TF_VAR_frontend_ssh_public_key: ${{ secrets.FRONTEND_SSH_PUBLIC_KEY }}
-          TF_VAR_management_ssh_public_key: ${{ secrets.MANAGEMENT_SSH_PUBLIC_KEY }}
+          TF_VAR_db_ssh_public_key: "${{ secrets.DB_SSH_PUBLIC_KEY }}"
+          TF_VAR_backend_ssh_public_key: "${{ secrets.BACKEND_SSH_PUBLIC_KEY }}"
+          TF_VAR_frontend_ssh_public_key: "${{ secrets.FRONTEND_SSH_PUBLIC_KEY }}"
+          TF_VAR_management_ssh_public_key: "${{ secrets.MANAGEMENT_SSH_PUBLIC_KEY }}"
 
-      - name: Terraform Destroy
-        run: terraform destroy -auto-approve
+      - name: Destroy only the VMs
+        run: terraform apply -auto-approve tfplan
         env:
           ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
           ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
           ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-          TF_VAR_db_ssh_public_key: ${{ secrets.DB_SSH_PUBLIC_KEY }}
-          TF_VAR_backend_ssh_public_key: ${{ secrets.BACKEND_SSH_PUBLIC_KEY }}
-          TF_VAR_frontend_ssh_public_key: ${{ secrets.FRONTEND_SSH_PUBLIC_KEY }}
-          TF_VAR_management_ssh_public_key: ${{ secrets.MANAGEMENT_SSH_PUBLIC_KEY }}
+          TF_VAR_db_ssh_public_key: "${{ secrets.DB_SSH_PUBLIC_KEY }}"
+          TF_VAR_backend_ssh_public_key: "${{ secrets.BACKEND_SSH_PUBLIC_KEY }}"
+          TF_VAR_frontend_ssh_public_key: "${{ secrets.FRONTEND_SSH_PUBLIC_KEY }}"
+          TF_VAR_management_ssh_public_key: "${{ secrets.MANAGEMENT_SSH_PUBLIC_KEY }}"
