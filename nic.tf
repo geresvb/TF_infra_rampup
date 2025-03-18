@@ -1,6 +1,6 @@
 #Network Interfaces Cards
 
-# NIC for Database (Private Subnet)
+#NIC DB
 resource "azurerm_network_interface" "nic_1" {
   name                = "NIC_DB"
   location            = azurerm_resource_group.RG_1.location
@@ -10,17 +10,18 @@ resource "azurerm_network_interface" "nic_1" {
     name                          = "NIC_DB"
     subnet_id                     = azurerm_subnet.private_subnet.id
     private_ip_address_allocation = "Static"
-    private_ip_address            = "10.0.0.33"
+    private_ip_address            = "10.0.0.36"
   }
 }
 
-# Network Security Group Association
+#Network Security group association
 resource "azurerm_network_interface_security_group_association" "nic_1_to_privatesg" {
   network_interface_id      = azurerm_network_interface.nic_1.id
   network_security_group_id = azurerm_network_security_group.private_sg.id
 }
 
-# NIC for Backend (Private Subnet)
+
+#NIC backend
 resource "azurerm_network_interface" "nic_2" {
   name                = "NIC_Backend"
   location            = azurerm_resource_group.RG_1.location
@@ -30,17 +31,19 @@ resource "azurerm_network_interface" "nic_2" {
     name                          = "NIC_Backend"
     subnet_id                     = azurerm_subnet.private_subnet.id
     private_ip_address_allocation = "Static"
-    private_ip_address            = "10.0.0.34"
+    private_ip_address            = "10.0.0.37"
   }
 }
 
-# Network Security Group Association
+#Network Security group association
 resource "azurerm_network_interface_security_group_association" "nic_2_to_privatesg" {
   network_interface_id      = azurerm_network_interface.nic_2.id
   network_security_group_id = azurerm_network_security_group.private_sg.id
 }
 
-# NIC for Frontend (Public Subnet)
+
+
+#NIC frontend
 resource "azurerm_network_interface" "nic_3" {
   name                = "NIC_Frontend"
   location            = azurerm_resource_group.RG_1.location
@@ -50,17 +53,19 @@ resource "azurerm_network_interface" "nic_3" {
     name                          = "NIC_Frontend"
     subnet_id                     = azurerm_subnet.public_subnet.id
     private_ip_address_allocation = "Static"
-    private_ip_address            = "10.0.0.65"
+    private_ip_address            = "10.0.0.68"
   }
 }
 
-# Network Security Group Association
-resource "azurerm_network_interface_security_group_association" "nic_3_to_publicsg" {
+#Network Security group association
+resource "azurerm_network_interface_security_group_association" "nic_3_to_privatesg" {
   network_interface_id      = azurerm_network_interface.nic_3.id
-  network_security_group_id = azurerm_network_security_group.public_sg.id
+  network_security_group_id = azurerm_network_security_group.private_sg.id
 }
 
-# NIC for Management (Management Subnet)
+
+
+#NIC frontend
 resource "azurerm_network_interface" "nic_4" {
   name                = "NIC_Management"
   location            = azurerm_resource_group.RG_1.location
@@ -70,13 +75,13 @@ resource "azurerm_network_interface" "nic_4" {
     name                          = "NIC_Management"
     subnet_id                     = azurerm_subnet.management_subnet.id
     private_ip_address_allocation = "Static"
-    private_ip_address            = "10.0.0.97"
+    private_ip_address            = "10.0.0.100"
     public_ip_address_id          = azurerm_public_ip.PublicIP2.id
   }
 }
 
-# Network Security Group Association
-resource "azurerm_network_interface_security_group_association" "nic_4_to_managementsg" {
+#Network Security group association
+resource "azurerm_network_interface_security_group_association" "nic_4_to_privatesg" {
   network_interface_id      = azurerm_network_interface.nic_4.id
-  network_security_group_id = azurerm_network_security_group.management_sg.id
+  network_security_group_id = azurerm_network_security_group.private_sg.id
 }
