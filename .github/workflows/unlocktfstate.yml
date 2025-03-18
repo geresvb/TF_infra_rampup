@@ -1,0 +1,27 @@
+name: Unlock Terraform State
+
+on:
+  workflow_dispatch:
+    inputs:
+      lock_id:
+        description: "Terraform Lock ID to unlock"
+        required: true
+        type: string
+
+jobs:
+  unlock-terraform:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: latest
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Force Unlock Terraform State
+        run: terraform force-unlock -force ${{ inputs.lock_id }}
