@@ -19,6 +19,7 @@ jobs:
 
       - name: Export SSH Public Keys
         run: |
+          mkdir -p ~/.ssh
           echo "${{ secrets.DB_SSH_PUBLIC_KEY }}" > ~/.ssh/dbkey.pub
           echo "${{ secrets.BACKEND_SSH_PUBLIC_KEY }}" > ~/.ssh/backendkey.pub
           echo "${{ secrets.FRONTEND_SSH_PUBLIC_KEY }}" > ~/.ssh/frontendkey.pub
