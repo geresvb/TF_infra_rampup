@@ -17,15 +17,14 @@ jobs:
         with:
           terraform_version: 1.5.0
 
-      - name: Create SSH Keys
+      - name: Export SSH Public Keys
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.DB_SSH_PRIVATE_KEY }}" > ~/.ssh/dbkey
-          echo "${{ secrets.BACKEND_SSH_PRIVATE_KEY }}" > ~/.ssh/backendkey
-          echo "${{ secrets.FRONTEND_SSH_PRIVATE_KEY }}" > ~/.ssh/frontendkey
-          echo "${{ secrets.MANAGEMENT_SSH_PRIVATE_KEY }}" > ~/.ssh/managementkey
+          echo "${{ secrets.DB_SSH_PUBLIC_KEY }}" > ~/.ssh/dbkey.pub
+          echo "${{ secrets.BACKEND_SSH_PUBLIC_KEY }}" > ~/.ssh/backendkey.pub
+          echo "${{ secrets.FRONTEND_SSH_PUBLIC_KEY }}" > ~/.ssh/frontendkey.pub
+          echo "${{ secrets.MANAGEMENT_SSH_PUBLIC_KEY }}" > ~/.ssh/managementkey.pub
           
-          chmod 600 ~/.ssh/dbkey ~/.ssh/backendkey ~/.ssh/frontendkey ~/.ssh/managementkey
+          chmod 644 ~/.ssh/dbkey.pub ~/.ssh/backendkey.pub ~/.ssh/frontendkey.pub ~/.ssh/managementkey.pub
 
       - name: Terraform Init
         run: terraform init
@@ -34,6 +33,10 @@ jobs:
           ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
           ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
           ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+          TF_VAR_db_ssh_public_key: "${{ secrets.DB_SSH_PUBLIC_KEY }}"
+          TF_VAR_backend_ssh_public_key: "${{ secrets.BACKEND_SSH_PUBLIC_KEY }}"
+          TF_VAR_frontend_ssh_public_key: "${{ secrets.FRONTEND_SSH_PUBLIC_KEY }}"
+          TF_VAR_management_ssh_public_key: "${{ secrets.MANAGEMENT_SSH_PUBLIC_KEY }}"
 
       - name: Terraform Plan
         run: terraform plan -out=tfplan
@@ -42,6 +45,10 @@ jobs:
           ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
           ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
           ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+          TF_VAR_db_ssh_public_key: "${{ secrets.DB_SSH_PUBLIC_KEY }}"
+          TF_VAR_backend_ssh_public_key: "${{ secrets.BACKEND_SSH_PUBLIC_KEY }}"
+          TF_VAR_frontend_ssh_public_key: "${{ secrets.FRONTEND_SSH_PUBLIC_KEY }}"
+          TF_VAR_management_ssh_public_key: "${{ secrets.MANAGEMENT_SSH_PUBLIC_KEY }}"
 
       - name: Terraform Apply
         run: terraform apply -auto-approve tfplan
@@ -50,6 +57,10 @@ jobs:
           ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
           ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
           ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+          TF_VAR_db_ssh_public_key: "${{ secrets.DB_SSH_PUBLIC_KEY }}"
+          TF_VAR_backend_ssh_public_key: "${{ secrets.BACKEND_SSH_PUBLIC_KEY }}"
+          TF_VAR_frontend_ssh_public_key: "${{ secrets.FRONTEND_SSH_PUBLIC_KEY }}"
+          TF_VAR_management_ssh_public_key: "${{ secrets.MANAGEMENT_SSH_PUBLIC_KEY }}"
 
       - name: Terraform Output
         run: terraform output
