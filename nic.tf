@@ -1,5 +1,5 @@
 #Network Interfaces Cards
-
+#
 #NIC DB
 resource "azurerm_network_interface" "nic_1" {
   name                = "NIC_DB"
