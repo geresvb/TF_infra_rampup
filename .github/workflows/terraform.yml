@@ -1,9 +1,11 @@
-name: Terraform Deployment
+name: Terraform Apply
 
 on:
   push:
     branches:
-      - main
+      - main  # Runs on push to main branch
+  workflow_dispatch:  # Allows manual execution
+
 
 jobs:
   terraform:
