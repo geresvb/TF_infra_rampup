@@ -1,5 +1,5 @@
 resource "azurerm_resource_group" "RG_1" {
-  name     = "Docker_Infrastructure"
+  name     = "Terraform_Infra"
   location = "East US"
   tags = {
     Tower   = "Wintel"
