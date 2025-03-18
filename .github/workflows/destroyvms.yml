@@ -24,13 +24,7 @@ jobs:
           ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
 
       - name: Plan destruction for VMs only
-        run: |
-          terraform plan -destroy \
-            -target=azurerm_linux_virtual_machine.db_vm \
-            -target=azurerm_linux_virtual_machine.backend_vm \
-            -target=azurerm_linux_virtual_machine.frontend_vm \
-            -target=azurerm_linux_virtual_machine.management_vm \
-            -out=tfplan
+        run: terraform plan -destroy -target=azurerm_linux_virtual_machine.db_vm -target=azurerm_linux_virtual_machine.backend_vm -target=azurerm_linux_virtual_machine.frontend_vm -target=azurerm_linux_virtual_machine.management_vm -out=tfplan
         env:
           ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
