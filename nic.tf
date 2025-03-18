@@ -10,7 +10,7 @@ resource "azurerm_network_interface" "nic_1" {
     name                          = "NIC_DB"
     subnet_id                     = azurerm_subnet.private_subnet.id
     private_ip_address_allocation = "Static"
-    private_ip_address            = "10.0.0.36"
+    private_ip_address            = "10.0.0.12"
   }
 }
 
@@ -31,7 +31,7 @@ resource "azurerm_network_interface" "nic_2" {
     name                          = "NIC_Backend"
     subnet_id                     = azurerm_subnet.private_subnet.id
     private_ip_address_allocation = "Static"
-    private_ip_address            = "10.0.0.37"
+    private_ip_address            = "10.0.0.13"
   }
 }
 
@@ -53,7 +53,7 @@ resource "azurerm_network_interface" "nic_3" {
     name                          = "NIC_Frontend"
     subnet_id                     = azurerm_subnet.public_subnet.id
     private_ip_address_allocation = "Static"
-    private_ip_address            = "10.0.0.68"
+    private_ip_address            = "10.0.0.20"
   }
 }
 
@@ -75,7 +75,7 @@ resource "azurerm_network_interface" "nic_4" {
     name                          = "NIC_Management"
     subnet_id                     = azurerm_subnet.management_subnet.id
     private_ip_address_allocation = "Static"
-    private_ip_address            = "10.0.0.100"
+    private_ip_address            = "10.0.0.28"
     public_ip_address_id          = azurerm_public_ip.PublicIP2.id
   }
 }
