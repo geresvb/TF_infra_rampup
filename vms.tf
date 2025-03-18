@@ -1,11 +1,16 @@
-# Virtual Machines
+#https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine
+
+
+#DB
 resource "azurerm_linux_virtual_machine" "dbvm" {
-  name                  = "DB-VM1"
-  resource_group_name   = azurerm_resource_group.RG_1.name
-  location              = azurerm_resource_group.RG_1.location
-  size                  = "Standard_B1s"
-  admin_username        = "adminuser"
-  network_interface_ids = [azurerm_network_interface.nic_1.id]
+  name                = "DB-VM1"
+  resource_group_name = azurerm_resource_group.RG_1.name
+  location            = azurerm_resource_group.RG_1.location
+  size                = "Standard_B1s"
+  admin_username      = "adminuser"
+  network_interface_ids = [
+    azurerm_network_interface.nic_1.id
+  ]
 
   admin_ssh_key {
     username   = "adminuser"
@@ -27,15 +32,19 @@ resource "azurerm_linux_virtual_machine" "dbvm" {
   custom_data = base64encode(file("./cloudinit/database.yaml"))
 }
 
-# Repeat for other VMs
 
-resource "azurerm_linux_virtual_machine" "backendvm" {
-  name                  = "Backend-VM1"
-  resource_group_name   = azurerm_resource_group.RG_1.name
-  location              = azurerm_resource_group.RG_1.location
-  size                  = "Standard_B1s"
-  admin_username        = "adminuser"
-  network_interface_ids = [azurerm_network_interface.nic_1.id]
+
+
+#Backend
+resource "azurerm_linux_virtual_machine" "BackendVM" {
+  name                = "Backend-VM1"
+  resource_group_name = azurerm_resource_group.RG_1.name
+  location            = azurerm_resource_group.RG_1.location
+  size                = "Standard_B1s"
+  admin_username      = "adminuser"
+  network_interface_ids = [
+    azurerm_network_interface.nic_2.id
+  ]
 
   admin_ssh_key {
     username   = "adminuser"
@@ -55,15 +64,22 @@ resource "azurerm_linux_virtual_machine" "backendvm" {
   }
 
   custom_data = base64encode(file("./cloudinit/backend.yaml"))
+
 }
 
-resource "azurerm_linux_virtual_machine" "frontendvm" {
-  name                  = "Frontend-VM1"
-  resource_group_name   = azurerm_resource_group.RG_1.name
-  location              = azurerm_resource_group.RG_1.location
-  size                  = "Standard_B1s"
-  admin_username        = "adminuser"
-  network_interface_ids = [azurerm_network_interface.nic_1.id]
+
+
+
+#Frontend
+resource "azurerm_linux_virtual_machine" "FrontendVM" {
+  name                = "Frontend-VM1"
+  resource_group_name = azurerm_resource_group.RG_1.name
+  location            = azurerm_resource_group.RG_1.location
+  size                = "Standard_B1s"
+  admin_username      = "adminuser"
+  network_interface_ids = [
+    azurerm_network_interface.nic_3.id
+  ]
 
   admin_ssh_key {
     username   = "adminuser"
@@ -83,15 +99,21 @@ resource "azurerm_linux_virtual_machine" "frontendvm" {
   }
 
   custom_data = base64encode(file("./cloudinit/frontend.yaml"))
+
 }
 
-resource "azurerm_linux_virtual_machine" "managementvm" {
-  name                  = "Management-VM1"
-  resource_group_name   = azurerm_resource_group.RG_1.name
-  location              = azurerm_resource_group.RG_1.location
-  size                  = "Standard_B1s"
-  admin_username        = "adminuser"
-  network_interface_ids = [azurerm_network_interface.nic_1.id]
+
+
+#Management
+resource "azurerm_linux_virtual_machine" "ManagementVM" {
+  name                = "Management-VM1"
+  resource_group_name = azurerm_resource_group.RG_1.name
+  location            = azurerm_resource_group.RG_1.location
+  size                = "Standard_B1s"
+  admin_username      = "adminuser"
+  network_interface_ids = [
+    azurerm_network_interface.nic_4.id
+  ]
 
   admin_ssh_key {
     username   = "adminuser"
@@ -111,6 +133,7 @@ resource "azurerm_linux_virtual_machine" "managementvm" {
   }
 
   custom_data = base64encode(file("./cloudinit/management.yaml"))
+
 }
 
 # Variables for SSH Keys
