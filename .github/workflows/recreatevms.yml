@@ -40,7 +40,7 @@ jobs:
           TF_VAR_management_ssh_public_key: "${{ secrets.MANAGEMENT_SSH_PUBLIC_KEY }}"
 
       - name: Recreate the VMs
-        run: terraform apply -auto-approve tfplan
+        run: terraform apply -replace=azurerm_linux_virtual_machine.dbvm -replace=azurerm_linux_virtual_machine.BackendVM -replace=azurerm_linux_virtual_machine.FrontendVM -replace=azurerm_linux_virtual_machine.ManagementVM  -auto-approve
         env:
           ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
