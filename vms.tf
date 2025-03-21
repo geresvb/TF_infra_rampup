@@ -1,3 +1,10 @@
+# Variables for SSH Keys
+variable "db_ssh_public_key" {}
+variable "backend_ssh_public_key" {}
+variable "frontend_ssh_public_key" {}
+variable "management_ssh_public_key" {}
+
+
 # DB
 resource "azurerm_linux_virtual_machine" "dbvm" {
   name                = "DB-VM1"
