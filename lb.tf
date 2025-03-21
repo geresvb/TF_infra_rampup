@@ -44,7 +44,7 @@ resource "azurerm_lb_rule" "allow_ssh" {
   loadbalancer_id                = azurerm_lb.frontend_lb.id
   name                           = "Allow-SSH"
   protocol                       = "Tcp"
-  frontend_port                  = 80
+  frontend_port                  = 22
   backend_port                   = 22
   frontend_ip_configuration_name = "FrontendConfig"
   backend_address_pool_ids       = [azurerm_lb_backend_address_pool.frontend_backend_pool.id]
