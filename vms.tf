@@ -1,7 +1,10 @@
-#https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine
+# Variables for SSH Keys
+variable "db_ssh_public_key" {}
+variable "backend_ssh_public_key" {}
+variable "frontend_ssh_public_key" {}
+variable "management_ssh_public_key" {}
 
-
-#DB
+# DB
 resource "azurerm_linux_virtual_machine" "dbvm" {
   name                = "DB-VM1"
   resource_group_name = azurerm_resource_group.RG_1.name
@@ -13,7 +16,6 @@ resource "azurerm_linux_virtual_machine" "dbvm" {
   ]
 
   admin_ssh_key {
-    username   = "adminuser"
     public_key = var.db_ssh_public_key
   }
 
@@ -32,10 +34,7 @@ resource "azurerm_linux_virtual_machine" "dbvm" {
   custom_data = base64encode(file("./cloudinit/database.yaml"))
 }
 
-
-
-
-#Backend
+# Backend
 resource "azurerm_linux_virtual_machine" "BackendVM" {
   name                = "Backend-VM1"
   resource_group_name = azurerm_resource_group.RG_1.name
@@ -47,7 +46,6 @@ resource "azurerm_linux_virtual_machine" "BackendVM" {
   ]
 
   admin_ssh_key {
-    username   = "adminuser"
     public_key = var.backend_ssh_public_key
   }
 
@@ -64,13 +62,9 @@ resource "azurerm_linux_virtual_machine" "BackendVM" {
   }
 
   custom_data = base64encode(file("./cloudinit/backend.yaml"))
-
 }
 
-
-
-
-#Frontend
+# Frontend
 resource "azurerm_linux_virtual_machine" "FrontendVM" {
   name                = "Frontend-VM1"
   resource_group_name = azurerm_resource_group.RG_1.name
@@ -82,7 +76,6 @@ resource "azurerm_linux_virtual_machine" "FrontendVM" {
   ]
 
   admin_ssh_key {
-    username   = "adminuser"
     public_key = var.frontend_ssh_public_key
   }
 
@@ -99,12 +92,9 @@ resource "azurerm_linux_virtual_machine" "FrontendVM" {
   }
 
   custom_data = base64encode(file("./cloudinit/frontend.yaml"))
-
 }
 
-
-
-#Management
+# Management
 resource "azurerm_linux_virtual_machine" "ManagementVM" {
   name                = "Management-VM1"
   resource_group_name = azurerm_resource_group.RG_1.name
@@ -116,7 +106,6 @@ resource "azurerm_linux_virtual_machine" "ManagementVM" {
   ]
 
   admin_ssh_key {
-    username   = "adminuser"
     public_key = var.management_ssh_public_key
   }
 
@@ -133,11 +122,5 @@ resource "azurerm_linux_virtual_machine" "ManagementVM" {
   }
 
   custom_data = base64encode(file("./cloudinit/management.yaml"))
-
 }
 
-# Variables for SSH Keys
-variable "db_ssh_public_key" {}
-variable "backend_ssh_public_key" {}
-variable "frontend_ssh_public_key" {}
-variable "management_ssh_public_key" {}
