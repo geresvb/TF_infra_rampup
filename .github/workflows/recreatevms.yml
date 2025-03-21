@@ -39,7 +39,7 @@ jobs:
           TF_VAR_frontend_ssh_public_key: "${{ secrets.FRONTEND_SSH_PUBLIC_KEY }}"
           TF_VAR_management_ssh_public_key: "${{ secrets.MANAGEMENT_SSH_PUBLIC_KEY }}"
 
-      - name: Destroy only the VMs
+      - name: Recreate the VMs
         run: terraform apply -auto-approve tfplan
         env:
           ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
