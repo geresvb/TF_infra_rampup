@@ -22,4 +22,4 @@ runcmd:
   - sudo docker pull geresvb/frontend:1.0
   - sudo apt install git -y
   - sudo git clone https://github.com/geresvb/frontendrampup /home/adminuser/frontend
-#  - sudo docker-compose -f /home/adminuser/frontend/docker-compose.yml up -d#
+  - sudo docker-compose -f /home/adminuser/frontend/docker-compose.yml up -d#
