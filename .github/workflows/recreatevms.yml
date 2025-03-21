@@ -1,4 +1,4 @@
-name: Destroy Terraform VMs
+name: Recreate Terraform VMs
 
 on:
   workflow_dispatch:  # Allows manual execution
