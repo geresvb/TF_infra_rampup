@@ -28,7 +28,7 @@ jobs:
           TF_VAR_management_ssh_public_key: "${{ secrets.MANAGEMENT_SSH_PUBLIC_KEY }}"
 
       - name: Plan destruction for VMs only
-        run: terraform plan -replacet=azurerm_linux_virtual_machine.dbvm -replacet=azurerm_linux_virtual_machine.BackendVM -replacet=azurerm_linux_virtual_machine.FrontendVM -replacet=azurerm_linux_virtual_machine.ManagementVM -out=tfplan
+        run: terraform plan -replace=azurerm_linux_virtual_machine.dbvm -replace=azurerm_linux_virtual_machine.BackendVM -replace=azurerm_linux_virtual_machine.FrontendVM -replace=azurerm_linux_virtual_machine.ManagementVM -out=tfplan
         env:
           ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
