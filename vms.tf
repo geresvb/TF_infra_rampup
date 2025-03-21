@@ -1,9 +1,3 @@
-# Variables for SSH Keys
-variable "db_ssh_public_key" {}
-variable "backend_ssh_public_key" {}
-variable "frontend_ssh_public_key" {}
-variable "management_ssh_public_key" {}
-
 # DB
 resource "azurerm_linux_virtual_machine" "dbvm" {
   name                = "DB-VM1"
@@ -16,6 +10,7 @@ resource "azurerm_linux_virtual_machine" "dbvm" {
   ]
 
   admin_ssh_key {
+    username   = "adminuser"
     public_key = var.db_ssh_public_key
   }
 
@@ -46,6 +41,7 @@ resource "azurerm_linux_virtual_machine" "BackendVM" {
   ]
 
   admin_ssh_key {
+    username   = "adminuser"
     public_key = var.backend_ssh_public_key
   }
 
@@ -76,6 +72,7 @@ resource "azurerm_linux_virtual_machine" "FrontendVM" {
   ]
 
   admin_ssh_key {
+    username   = "adminuser"
     public_key = var.frontend_ssh_public_key
   }
 
@@ -106,6 +103,7 @@ resource "azurerm_linux_virtual_machine" "ManagementVM" {
   ]
 
   admin_ssh_key {
+    username   = "adminuser"
     public_key = var.management_ssh_public_key
   }
 
@@ -123,4 +121,3 @@ resource "azurerm_linux_virtual_machine" "ManagementVM" {
 
   custom_data = base64encode(file("./cloudinit/management.yaml"))
 }
-
