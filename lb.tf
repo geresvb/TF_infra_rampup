@@ -39,7 +39,15 @@ resource "azurerm_network_interface_backend_address_pool_association" "nic_2_to_
   backend_address_pool_id = azurerm_lb_backend_address_pool.frontend_backend_pool.id
 }
 
-# Load Balancer Rule: Allow SSH Traffic
+# Load Balancer Probe: SSH
+resource "azurerm_lb_probe" "ssh_probe" {
+  loadbalancer_id = azurerm_lb.frontend_lb.id
+  name            = "SSH-Probe"
+  protocol        = "Tcp"
+  port            = 22
+}
+
+# Load Balancer Rule: Allow SSH Traffic (only frontend will respond)
 resource "azurerm_lb_rule" "allow_ssh" {
   loadbalancer_id                = azurerm_lb.frontend_lb.id
   name                           = "Allow-SSH"
@@ -51,15 +59,7 @@ resource "azurerm_lb_rule" "allow_ssh" {
   probe_id                       = azurerm_lb_probe.ssh_probe.id
 }
 
-# Load Balancer Probe: SSH
-resource "azurerm_lb_probe" "ssh_probe" {
-  loadbalancer_id = azurerm_lb.frontend_lb.id
-  name            = "SSH-Probe"
-  protocol        = "Tcp"
-  port            = 22
-}
-
-# Load Balancer Rule: Port 3000 for nic_3
+# Load Balancer Rule: Port 3000 for Frontend (nic_3)
 resource "azurerm_lb_rule" "allow_3000" {
   loadbalancer_id                = azurerm_lb.frontend_lb.id
   name                           = "Allow-3000"
@@ -70,7 +70,7 @@ resource "azurerm_lb_rule" "allow_3000" {
   backend_address_pool_ids       = [azurerm_lb_backend_address_pool.frontend_backend_pool.id]
 }
 
-# Load Balancer Rule: Port 3001 for nic_2
+# Load Balancer Rule: Port 3001 for Backend (nic_2)
 resource "azurerm_lb_rule" "allow_3001" {
   loadbalancer_id                = azurerm_lb.frontend_lb.id
   name                           = "Allow-3001"
