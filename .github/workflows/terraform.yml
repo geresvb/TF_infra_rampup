@@ -42,7 +42,28 @@ jobs:
           TF_VAR_backend_ssh_public_key: "${{ secrets.BACKEND_SSH_PUBLIC_KEY }}"
           TF_VAR_frontend_ssh_public_key: "${{ secrets.FRONTEND_SSH_PUBLIC_KEY }}"
           TF_VAR_management_ssh_public_key: "${{ secrets.MANAGEMENT_SSH_PUBLIC_KEY }}"
+  
+      - name: Terraform Apply Public IP
+        run: terraform apply -target=azurerm_public_ip.lb_public_ip -auto-approve
+        env:
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+          TF_VAR_db_ssh_public_key: "${{ secrets.DB_SSH_PUBLIC_KEY }}"
+          TF_VAR_backend_ssh_public_key: "${{ secrets.BACKEND_SSH_PUBLIC_KEY }}"
+          TF_VAR_frontend_ssh_public_key: "${{ secrets.FRONTEND_SSH_PUBLIC_KEY }}"
+          TF_VAR_management_ssh_public_key: "${{ secrets.MANAGEMENT_SSH_PUBLIC_KEY }}"
+          
+      - name: Terraform Output
+        run: terraform output
+        env:
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
 
+          
       - name: Terraform Apply
         run: terraform apply -auto-approve tfplan
         env:
