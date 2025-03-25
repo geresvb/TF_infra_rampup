@@ -34,6 +34,7 @@ output "PublicIPManagement" {
 }
 
 output "load_balancer_dns_url" {
-  value = "http://${azurerm_public_ip.lb_public_ip.fqdn}"
+  value       = azurerm_public_ip.lb_public_ip.fqdn != null ? "http://${azurerm_public_ip.lb_public_ip.fqdn}" : "FQDN not available yet"
   description = "The public DNS URL of the Load Balancer"
 }
+
