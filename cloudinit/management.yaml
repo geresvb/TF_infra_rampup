@@ -2,14 +2,26 @@
 package_update: true
 package_upgrade: true
 
+write_files:
+  - path: /home/adminuser/setup-runner.sh
+    permissions: '0755'
+    owner: adminuser:adminuser
+    content: |
+      #!/bin/bash
+      set -e
+      cd /home/adminuser
+      mkdir -p actions-runner
+      cd actions-runner
+      curl -o actions-runner-linux-x64-2.323.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.323.0/actions-runner-linux-x64-2.323.0.tar.gz
+      echo "0dbc9bf5a58620fc52cb6cc0448abcca964a8d74b5f39773b7afcad9ab691e19  actions-runner-linux-x64-2.323.0.tar.gz" | shasum -a 256 -c
+      tar xzf ./actions-runner-linux-x64-2.323.0.tar.gz
+      ./config.sh --url https://github.com/geresvb/backendrampup --token AJMGFBJHP5JZVMVOV2NQ4XTH4MQYM --unattended
+      ./svc.sh install
+      ./svc.sh start
+
 runcmd:
-  - mkdir -p /home/adminuser/actions-runner
-  - cd /home/adminuser/actions-runner && curl -o actions-runner-linux-x64-2.323.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.323.0/actions-runner-linux-x64-2.323.0.tar.gz
-  - cd /home/adminuser/actions-runner && echo "0dbc9bf5a58620fc52cb6cc0448abcca964a8d74b5f39773b7afcad9ab691e19  actions-runner-linux-x64-2.323.0.tar.gz" | shasum -a 256 -c
-  - cd /home/adminuser/actions-runner && tar xzf ./actions-runner-linux-x64-2.323.0.tar.gz
-  - cd /home/adminuser/actions-runner && ./config.sh --url https://github.com/geresvb/backendrampup --token AJMGFBLKXL4OJDTJVEC6V4LH4MOU6 --unattended
-  - cd /home/adminuser/actions-runner && ./svc.sh install
-  - cd /home/adminuser/actions-runner && ./svc.sh start
+  - sudo -u adminuser /home/adminuser/setup-runner.sh
+
 
 
 #  - sudo apt-get install -y ca-certificates curl gnupg
