@@ -110,13 +110,23 @@ jobs:
             https://api.github.com/repos/geresvb/backendrampup/dispatches \
             -d '{"event_type":"update-env"}
             
+      - name: Trigger workflow in backendrampup (env regeneration)
+        run: |
+          curl -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
+            https://api.github.com/repos/geresvb/backendrampup/dispatches \
+            -d "{\"event_type\":\"update-env\",\"client_payload\":{\"public_ip\":\"${{ steps.tf_output.outputs.public_ip }}\"}}"
+
+            
       - name: Trigger workflow in frontendrampup (env regeneration)
         run: |
           curl -X POST \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
             https://api.github.com/repos/geresvb/frontendrampup/dispatches \
-            -d '{"event_type":"update-env"}'
+            -d "{\"event_type\":\"update-env\",\"client_payload\":{\"public_ip\":\"${{ steps.tf_output.outputs.public_ip }}\"}}"
+
 
       - name: Terraform Plan
         run: terraform plan -out=tfplan2
