@@ -58,7 +58,7 @@ jobs:
       - name: Get LoadBalancer Public IP
         id: tf_output
         run: |
-          IP=$(terraform output -raw LoadBalancerIP)
+          IP=$(terraform output -raw LoadBalancerIP | head -n 1)
           echo "LoadBalancerIP: $IP"
           echo "TF_PUBLIC_IP=$IP" >> $GITHUB_ENV
           echo "public_ip=$IP" >> $GITHUB_OUTPUT
