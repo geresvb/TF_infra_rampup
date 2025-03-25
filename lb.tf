@@ -5,9 +5,7 @@ resource "azurerm_public_ip" "lb_public_ip" {
   resource_group_name = azurerm_resource_group.RG_1.name
   allocation_method   = "Static"
   sku                 = "Standard"
-  dns_settings {
-      domain_name_label = "germanvaldesrampup" # This must be globally unique within the region
-    }
+  domain_name_label   = "myfrontendapp" # This must be globally unique
 }
 
 # Load Balancer
