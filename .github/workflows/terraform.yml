@@ -55,14 +55,13 @@ jobs:
           TF_VAR_frontend_ssh_public_key: "${{ secrets.FRONTEND_SSH_PUBLIC_KEY }}"
           TF_VAR_management_ssh_public_key: "${{ secrets.MANAGEMENT_SSH_PUBLIC_KEY }}"
           
-      - name: Terraform Output
-        run: terraform output
-        env:
-          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-
+      - name: Get Public IP from Terraform Output
+        id: tf_output
+        run: |
+          IP=$(terraform output -raw LoadBalancerIP)
+          echo "TF_PUBLIC_IP=$IP" >> $GITHUB_ENV
+          echo "public_ip=$IP" >> $GITHUB_OUTPUT
+  
       - name: Terraform Plan
         run: terraform plan -out=tfplan2
         env:
