@@ -68,7 +68,7 @@ jobs:
           ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
           ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
           
-      - name: Try to Create PUBLIC_IP Variable (safe to fail)
+      - name: Try to Create PUBLIC_IP Variable in backend (safe to fail)
         continue-on-error: true
         run: |
           curl -X POST \
@@ -76,13 +76,30 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             https://api.github.com/repos/geresvb/backendrampup/actions/variables \
             -d '{"name":"PUBLIC_IP","value":"${{ steps.tf_output.outputs.public_ip }}"}'
-      
-      - name: Update PUBLIC_IP Variable in External Repo
+            
+      - name: Try to Create PUBLIC_IP Variable in frontend (safe to fail)
+        continue-on-error: true
+        run: |
+          curl -X POST \
+            -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/geresvb/frontendrampup/actions/variables \
+            -d '{"name":"PUBLIC_IP","value":"${{ steps.tf_output.outputs.public_ip }}"}'
+
+      - name: Update PUBLIC_IP Variable in backend repo
         run: |
           curl -X PATCH \
             -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
             -H "Accept: application/vnd.github+json" \
             https://api.github.com/repos/geresvb/backendrampup/actions/variables/PUBLIC_IP \
+            -d '{"name":"PUBLIC_IP","value":"${{ steps.tf_output.outputs.public_ip }}"}'
+            
+      - name: Update PUBLIC_IP Variable in frontend repo
+        run: |
+          curl -X PATCH \
+            -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/geresvb/frontendrampup/actions/variables/PUBLIC_IP \
             -d '{"name":"PUBLIC_IP","value":"${{ steps.tf_output.outputs.public_ip }}"}'
 
       - name: Terraform Plan
