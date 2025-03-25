@@ -5,7 +5,7 @@ resource "azurerm_public_ip" "lb_public_ip" {
   resource_group_name = azurerm_resource_group.RG_1.name
   allocation_method   = "Static"
   sku                 = "Standard"
-  domain_name_label   = "germanvaldesrampup"
+  domain_name_label   = "germanvaldesrampup123"
 }
 
 # Load Balancer
