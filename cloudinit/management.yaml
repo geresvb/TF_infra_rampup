@@ -3,20 +3,28 @@ package_update: true
 package_upgrade: true
 
 runcmd:
-  - sudo apt-get remove -y docker docker-engine docker.io containerd runc
+#  - sudo apt-get remove -y docker docker-engine docker.io containerd runc
   - sudo apt-get update -y
-  - sudo apt-get install -y ca-certificates curl gnupg
-  - sudo mkdir -m 0755 -p /etc/apt/keyrings
-  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo tee /etc/apt/keyrings/docker.asc > /dev/null
-  - echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-  - sudo apt-get update -y
-  - sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-  - sudo usermod -aG docker adminuser
-  - sudo systemctl enable docker
-  - sudo systemctl start docker
-  - sudo curl -SL https://github.com/docker/compose/releases/latest/download/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
-  - sudo chmod +x /usr/local/bin/docker-compose
-  - sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
-  - docker --version
-  - docker-compose --version
+  - mkdir -p /home/azureuser/actions-runner
+  - cd /home/azureuser/actions-runner
+  - curl -o actions-runner-linux-x64-2.323.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.323.0/actions-runner-linux-x64-2.323.0.tar.gz
+  - echo "0dbc9bf5a58620fc52cb6cc0448abcca964a8d74b5f39773b7afcad9ab691e19  actions-runner-linux-x64-2.323.0.tar.gz" | shasum -a 256 -c
+  - tar xzf ./actions-runner-linux-x64-2.323.0.tar.gz
+  - ./config.sh --url https://github.com/geresvb/backendrampup --token AJMGFBP2HZXUH66ACS3DVH3H4LX7O --unattended
+  - ./run.sh
+
+#  - sudo apt-get install -y ca-certificates curl gnupg
+#  - sudo mkdir -m 0755 -p /etc/apt/keyrings
+#  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo tee /etc/apt/keyrings/docker.asc > /dev/null
+#  - echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+#  - sudo apt-get update -y
+#  - sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+#  - sudo usermod -aG docker adminuser
+#  - sudo systemctl enable docker
+#  - sudo systemctl start docker
+#  - sudo curl -SL https://github.com/docker/compose/releases/latest/download/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+#  - sudo chmod +x /usr/local/bin/docker-compose
+#  - sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+#  - docker --version
+ # - docker-compose --version
  # - sudo docker pull geresvb/frontend
