@@ -32,3 +32,8 @@ output "PublicIPManagement" {
   description = "Management Public Ip"
   value       = azurerm_linux_virtual_machine.ManagementVM.public_ip_address
 }
+
+output "load_balancer_dns_url" {
+  value = "http://${azurerm_public_ip.lb_public_ip.fqdn}"
+  description = "The public DNS URL of the Load Balancer"
+}
