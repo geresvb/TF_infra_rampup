@@ -47,6 +47,7 @@ resource "azurerm_linux_virtual_machine" "BackendVM" {
     azurerm_network_interface.nic_2.id
   ]
 
+  depends_on = [azurerm_linux_virtual_machine.dbvm]
   admin_ssh_key {
     username   = "adminuser"
     public_key = var.backend_ssh_public_key
@@ -78,6 +79,7 @@ resource "azurerm_linux_virtual_machine" "FrontendVM" {
     azurerm_network_interface.nic_3.id
   ]
 
+  depends_on = [azurerm_linux_virtual_machine.dbvm]
   admin_ssh_key {
     username   = "adminuser"
     public_key = var.frontend_ssh_public_key
@@ -109,6 +111,7 @@ resource "azurerm_linux_virtual_machine" "ManagementVM" {
     azurerm_network_interface.nic_4.id
   ]
 
+  depends_on = [azurerm_linux_virtual_machine.dbvm]
   admin_ssh_key {
     username   = "adminuser"
     public_key = var.management_ssh_public_key
