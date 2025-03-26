@@ -3,8 +3,9 @@ package_update: true
 package_upgrade: true
 
 runcmd:
-  - mkdir home/adminuser/hello
-
+  - mkdir home/adminuser/actions-runner
+  - curl -o /home/adminuser/actions-runner/actions-runner-linux-x64-2.323.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.323.0/actions-runner-linux-x64-2.323.0.tar.gz
+  - tar xzf /home/adminuser/actions-runner/actions-runner-linux-x64-2.323.0.tar.gz -C /home/adminuser/actions-runner
 
 
 #  - sudo apt-get install -y ca-certificates curl gnupg
