@@ -47,6 +47,8 @@ jobs:
           TF_VAR_backend_ssh_public_key: "${{ secrets.BACKEND_SSH_PUBLIC_KEY }}"
           TF_VAR_frontend_ssh_public_key: "${{ secrets.FRONTEND_SSH_PUBLIC_KEY }}"
           TF_VAR_management_ssh_public_key: "${{ secrets.MANAGEMENT_SSH_PUBLIC_KEY }}"
+          TF_VAR_backend_runner_token: ${{ steps.get_tokens.outputs.backend_token }}
+          TF_VAR_frontend_runner_token: ${{ steps.get_tokens.outputs.frontend_token }}
 
       - name: Terraform Plan
         run: terraform plan -out=tfplan
@@ -59,6 +61,8 @@ jobs:
           TF_VAR_backend_ssh_public_key: "${{ secrets.BACKEND_SSH_PUBLIC_KEY }}"
           TF_VAR_frontend_ssh_public_key: "${{ secrets.FRONTEND_SSH_PUBLIC_KEY }}"
           TF_VAR_management_ssh_public_key: "${{ secrets.MANAGEMENT_SSH_PUBLIC_KEY }}"
+          TF_VAR_backend_runner_token: ${{ steps.get_tokens.outputs.backend_token }}
+          TF_VAR_frontend_runner_token: ${{ steps.get_tokens.outputs.frontend_token }}
           
       - name: Terraform Apply
         run: terraform apply -auto-approve tfplan
@@ -71,6 +75,8 @@ jobs:
           TF_VAR_backend_ssh_public_key: "${{ secrets.BACKEND_SSH_PUBLIC_KEY }}"
           TF_VAR_frontend_ssh_public_key: "${{ secrets.FRONTEND_SSH_PUBLIC_KEY }}"
           TF_VAR_management_ssh_public_key: "${{ secrets.MANAGEMENT_SSH_PUBLIC_KEY }}"
+          TF_VAR_backend_runner_token: ${{ steps.get_tokens.outputs.backend_token }}
+          TF_VAR_frontend_runner_token: ${{ steps.get_tokens.outputs.frontend_token }}
 
       - name: Terraform Output
         run: terraform output
@@ -79,3 +85,5 @@ jobs:
           ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
           ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
           ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+          TF_VAR_backend_runner_token: ${{ steps.get_tokens.outputs.backend_token }}
+          TF_VAR_frontend_runner_token: ${{ steps.get_tokens.outputs.frontend_token }}
