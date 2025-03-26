@@ -78,8 +78,12 @@ jobs:
           TF_VAR_backend_runner_token: ${{ steps.get_tokens.outputs.backend_token }}
           TF_VAR_frontend_runner_token: ${{ steps.get_tokens.outputs.frontend_token }}
 
-      - name: Terraform Output
-        run: terraform output
+      - name: Show Runner Tokens (debug only!)
+        run: |
+          echo "Backend token:"
+          terraform output -raw backend_runner_token
+          echo "Frontend token:"
+          terraform output -raw frontend_runner_token
         env:
           ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
@@ -87,3 +91,4 @@ jobs:
           ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
           TF_VAR_backend_runner_token: ${{ steps.get_tokens.outputs.backend_token }}
           TF_VAR_frontend_runner_token: ${{ steps.get_tokens.outputs.frontend_token }}
+
