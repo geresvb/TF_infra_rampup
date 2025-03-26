@@ -19,6 +19,30 @@ jobs:
         with:
           terraform_version: latest
 
+      - name: Get GitHub Runner Registration Tokens
+        id: get_tokens
+        run: |
+          BACKEND_REPO="geresvb/backendrampup"
+          FRONTEND_REPO="geresvb/frontendrampup"
+      
+          echo "🔄 Obteniendo token para $BACKEND_REPO..."
+          BACKEND_RESPONSE=$(curl -s -X POST -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
+            https://api.github.com/repos/$BACKEND_REPO/actions/runners/registration-token)
+          echo "👉 Respuesta Backend:"
+          echo "$BACKEND_RESPONSE"
+      
+          echo "🔄 Obteniendo token para $FRONTEND_REPO..."
+          FRONTEND_RESPONSE=$(curl -s -X POST -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
+            https://api.github.com/repos/$FRONTEND_REPO/actions/runners/registration-token)
+          echo "👉 Respuesta Frontend:"
+          echo "$FRONTEND_RESPONSE"
+      
+          BACKEND_TOKEN=$(echo "$BACKEND_RESPONSE" | jq -r .token)
+          FRONTEND_TOKEN=$(echo "$FRONTEND_RESPONSE" | jq -r .token)
+      
+          echo "backend_token=$BACKEND_TOKEN" >> $GITHUB_OUTPUT
+          echo "frontend_token=$FRONTEND_TOKEN" >> $GITHUB_OUTPUT
+
       - name: Terraform Init
         run: terraform init
         env:
