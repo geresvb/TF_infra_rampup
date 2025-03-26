@@ -3,26 +3,35 @@ package_update: true
 package_upgrade: true
 
 runcmd:
+  # Create runner directories
   - mkdir -p /home/adminuser/actions-runner
   - mkdir -p /home/adminuser/actions-runner2
+
+  # Set correct ownership
   - chown -R adminuser:adminuser /home/adminuser/actions-runner
   - chown -R adminuser:adminuser /home/adminuser/actions-runner2
 
+  # Download runner binaries
   - curl -o /home/adminuser/actions-runner/actions-runner-linux-x64-2.323.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.323.0/actions-runner-linux-x64-2.323.0.tar.gz
   - curl -o /home/adminuser/actions-runner2/actions-runner-linux-x64-2.323.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.323.0/actions-runner-linux-x64-2.323.0.tar.gz
 
+  # Extract runners
   - tar xzf /home/adminuser/actions-runner/actions-runner-linux-x64-2.323.0.tar.gz -C /home/adminuser/actions-runner
   - tar xzf /home/adminuser/actions-runner2/actions-runner-linux-x64-2.323.0.tar.gz -C /home/adminuser/actions-runner2
 
+  # Install required packages
   - apt install -y libssl-dev libicu-dev libkrb5-dev zlib1g libcurl4 openssl
 
+  # Reapply permissions just in case
   - chown -R adminuser:adminuser /home/adminuser/actions-runner
   - chown -R adminuser:adminuser /home/adminuser/actions-runner2
   - chmod -R u+rwX /home/adminuser/actions-runner
   - chmod -R u+rwX /home/adminuser/actions-runner2
 
+  # Configure the runners
   - su - adminuser -c '/home/adminuser/actions-runner/config.sh --unattended --url https://github.com/geresvb/backendrampup --token ${backend_token}'
   - su - adminuser -c '/home/adminuser/actions-runner2/config.sh --unattended --url https://github.com/geresvb/frontendrampup --token ${frontend_token}'
 
+  # Start the runners in the background
   - su - adminuser -c 'nohup /home/adminuser/actions-runner/run.sh > /home/adminuser/actions-runner/runner.log 2>&1 &'
   - su - adminuser -c 'nohup /home/adminuser/actions-runner2/run.sh > /home/adminuser/actions-runner2/runner.log 2>&1 &'
