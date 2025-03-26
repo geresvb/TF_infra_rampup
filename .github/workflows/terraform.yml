@@ -19,21 +19,39 @@ jobs:
         with:
           terraform_version: 1.5.0
 
-          
       - name: Get GitHub Runner Registration Tokens
         id: get_tokens
         run: |
           BACKEND_REPO="geresvb/backendrampup"
           FRONTEND_REPO="geresvb/frontendrampup"
       
-          BACKEND_TOKEN=$(curl -s -X POST -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
+          BACKEND_TOKEN=$(curl -s -X POST -H "Authorization: token ${{ secrets.GH_TOKEN }}" 
             https://api.github.com/repos/$BACKEND_REPO/actions/runners/registration-token | jq -r .token)
       
           FRONTEND_TOKEN=$(curl -s -X POST -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
             https://api.github.com/repos/$FRONTEND_REPO/actions/runners/registration-token | jq -r .token)
       
+          echo "BACKEND_TOKEN=$BACKEND_TOKEN" >> $GITHUB_ENV
+          echo "FRONTEND_TOKEN=$FRONTEND_TOKEN" >> $GITHUB_ENV
+      
           echo "backend_token=$BACKEND_TOKEN" >> $GITHUB_OUTPUT
           echo "frontend_token=$FRONTEND_TOKEN" >> $GITHUB_OUTPUT
+
+          
+#      - name: Get GitHub Runner Registration Tokens
+#        id: get_tokens
+#        run: |
+#          BACKEND_REPO="geresvb/backendrampup"
+#          FRONTEND_REPO="geresvb/frontendrampup"
+      
+#          BACKEND_TOKEN=$(curl -s -X POST -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
+#            https://api.github.com/repos/$BACKEND_REPO/actions/runners/registration-token | jq -r .token)
+#      
+#          FRONTEND_TOKEN=$(curl -s -X POST -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
+#            https://api.github.com/repos/$FRONTEND_REPO/actions/runners/registration-token | jq -r .token)
+      
+#          echo "backend_token=$BACKEND_TOKEN" >> $GITHUB_OUTPUT
+#          echo "frontend_token=$FRONTEND_TOKEN" >> $GITHUB_OUTPUT
 
 
       - name: Terraform Init
