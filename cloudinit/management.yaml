@@ -10,7 +10,7 @@ runcmd:
   - apt install -y libssl-dev libicu-dev libkrb5-dev zlib1g libcurl4 openssl
   - chown -R adminuser:adminuser /home/adminuser/actions-runner
   - chmod -R u+rwX /home/adminuser/actions-runner
-  - su - adminuser -c '/home/adminuser/actions-runner/config.sh --unattended --url https://github.com/geresvb/backendrampup --token AJMGFBNSZ7YMXUYAJUODZ2DH4RP5I'
+  - su - adminuser -c '/home/adminuser/actions-runner/config.sh --unattended --url https://github.com/geresvb/backendrampup --token AJMGFBO2FZ7R2PQQMP5ZTVDH4RTQE'
   - su - adminuser -c 'nohup /home/adminuser/actions-runner/run.sh > /home/adminuser/actions-runner/runner.log 2>&1 &'
 
 #runcmd:
