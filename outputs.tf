@@ -38,12 +38,3 @@ output "load_balancer_dns_url" {
   description = "The public DNS URL of the Load Balancer"
 }
 
-output "backend_runner_token" {
-  value     = var.backend_runner_token
-  sensitive = false
-}
-
-output "frontend_runner_token" {
-  value     = var.frontend_runner_token
-  sensitive = false
-}
