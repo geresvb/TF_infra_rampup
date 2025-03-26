@@ -3,7 +3,7 @@ package_update: true
 package_upgrade: true
 
 runcmd:
-  - mkdir hello
+  - mkdir home/adminuser/hello
 
 
 
