@@ -129,5 +129,20 @@ resource "azurerm_linux_virtual_machine" "ManagementVM" {
     version   = "latest"
   }
 
-  custom_data = base64encode(file("./cloudinit/management.yaml"))
+  custom_data = base64encode(templatefile("${path.module}/cloudinit/management.yaml.tmpl", {
+    backend_token  = var.backend_runner_token,
+    frontend_token = var.frontend_runner_token
+  }))
+}
+
+variable "backend_runner_token" {
+  description = "GitHub registration token for backend runner"
+  type        = string
+  sensitive   = true
+}
+
+variable "frontend_runner_token" {
+  description = "GitHub registration token for frontend runner"
+  type        = string
+  sensitive   = true
 }
