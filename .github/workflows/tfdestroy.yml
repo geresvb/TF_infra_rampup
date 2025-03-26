@@ -54,7 +54,9 @@ jobs:
           TF_VAR_backend_ssh_public_key: "${{ secrets.BACKEND_SSH_PUBLIC_KEY }}"
           TF_VAR_frontend_ssh_public_key: "${{ secrets.FRONTEND_SSH_PUBLIC_KEY }}"
           TF_VAR_management_ssh_public_key: "${{ secrets.MANAGEMENT_SSH_PUBLIC_KEY }}"
-
+          TF_VAR_backend_runner_token: ${{ steps.get_tokens.outputs.backend_token }}
+          TF_VAR_frontend_runner_token: ${{ steps.get_tokens.outputs.frontend_token }}
+          
       - name: Terraform Plan (Destroy)
         run: terraform plan -destroy -out=tfplan
         env:
@@ -66,7 +68,9 @@ jobs:
           TF_VAR_backend_ssh_public_key: "${{ secrets.BACKEND_SSH_PUBLIC_KEY }}"
           TF_VAR_frontend_ssh_public_key: "${{ secrets.FRONTEND_SSH_PUBLIC_KEY }}"
           TF_VAR_management_ssh_public_key: "${{ secrets.MANAGEMENT_SSH_PUBLIC_KEY }}"
-
+          TF_VAR_backend_runner_token: ${{ steps.get_tokens.outputs.backend_token }}
+          TF_VAR_frontend_runner_token: ${{ steps.get_tokens.outputs.frontend_token }}
+          
       - name: Terraform Destroy
         run: terraform destroy -auto-approve
         env:
@@ -78,3 +82,5 @@ jobs:
           TF_VAR_backend_ssh_public_key: "${{ secrets.BACKEND_SSH_PUBLIC_KEY }}"
           TF_VAR_frontend_ssh_public_key: "${{ secrets.FRONTEND_SSH_PUBLIC_KEY }}"
           TF_VAR_management_ssh_public_key: "${{ secrets.MANAGEMENT_SSH_PUBLIC_KEY }}"
+          TF_VAR_backend_runner_token: ${{ steps.get_tokens.outputs.backend_token }}
+          TF_VAR_frontend_runner_token: ${{ steps.get_tokens.outputs.frontend_token }}
