@@ -40,10 +40,10 @@ output "load_balancer_dns_url" {
 
 output "backend_runner_token" {
   value = var.backend_runner_token
-  sensitive = true
+  sensitive = false
 }
 
 output "frontend_runner_token" {
   value = var.frontend_runner_token
-  sensitive = true
+  sensitive = false
 }
